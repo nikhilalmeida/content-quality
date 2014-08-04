@@ -1,0 +1,11 @@
+
+	{{hello}}
+
+		<form class="form form-inline" novalidate>
+		<input class="form-control" type="text" ng-model="topicName" placeholder="Add new topic..." required/><button class="btn" ng-click="createTopic(topicName)">Add</button>
+		</form>
+		<br><br>
+
+		<table class="" ng-repeat="topic in topics">
+			<tr><td><a href="">{{topic.topic_name}}</td></tr>
+		</table>

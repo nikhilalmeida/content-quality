@@ -1,0 +1,16 @@
+Flask==0.8
+Jinja2==2.6
+Werkzeug==0.8.3
+uwsgi
+supervisor
+statsd
+pyelasticsearch
+urllib3
+requests
+flask-cors
+nltk==2.0.2
+numpy
+pyyaml==3.10
+--find-links http://repo.prod.demandstudios.com/python/
+--find-links http://repo.prod.demandstudios.com/wheelhouse/
+featuregen==1.0.6

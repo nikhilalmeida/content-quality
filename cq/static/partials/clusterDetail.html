@@ -1,0 +1,95 @@
+<style>
+    .on-drag-enter {
+        background-color: yellow;
+        border: 1px dotted #ccc;
+    }
+
+    .on-drag-hover {
+        background-color: #fff;
+        border: 1px dotted teal;
+        padding-top: 4px;
+    }
+
+    .grid-left {
+        position: fixed;
+        top: 120px;
+        bottom: 0;
+        padding-bottom: 120px;
+        overflow: auto;
+        width: 350px;
+        background-color: whitesmoke;
+    }
+
+    .grid-right {
+        margin-left: 370px;
+        position: relative;
+    }
+
+    .main-grid-body {
+
+        position: relative;
+    }
+
+    tr:hover {
+        border-left: 4px solid teal;
+        cursor: move;
+    }
+</style>
+
+<div class="alert alert-danger" ng-show="errorMessage">
+    <h2>{{ errorMessage }}</h2>
+
+    <p>Blame Nikhil for providing bad data...</p>
+</div>
+
+<div ng-show="dataReady">
+    <div class="container">
+        <div class="main-grid-body">
+
+            <div class="grid-left">
+                <div ng-controller="topicCtrl">
+                    <div class="input-group">
+                        <input x placeholder="Add new topic..." required type="text"
+                               class="form-control" ng-model="topicName">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="createTopic(topicName)">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </span>
+                    </div>
+
+                    <ul class="nav nav-stacked">
+                        <li ng-repeat="topic in topics | filter:topicName | orderBy:predicate "
+                            ui-on-Drop="addToTopic($data.article_id,topic, $index)">
+                            <a href="#/topics/{{ topic.topic_id }}" ng-click="getArticlesForTopic(topic.topic_id)">
+                                <span class="badge badge-primary">{{ topic.articles_length }}</span> {{ topic.topic_name|uppercase }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid-right">
+                <h4>{{ (clusterDetails.cluster|filter:search | filter:containsTopic).length }} titles in
+                    <i>{{ clusterDetails.title }}</i></h4>
+
+                <table ng-show="clusterDetails.cluster.length > 0"
+                       class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th><input class="form-control" type="text" ng-model="search.title"
+                                   placeholder="Filter by keywords..."></th>
+                    </tr>
+                    </thead>
+
+                    <tr ng-repeat="title in clusterDetails.cluster | filter:search | filter:containsTopic"
+                        ui-draggable="true" class="dragger" drag="title"
+                        on-drop-success="removeArticleFromCluster($index, title)">
+                        <!-- print article title-->
+                        <td> {{ title.title }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
